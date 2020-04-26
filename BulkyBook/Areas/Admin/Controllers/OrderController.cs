@@ -80,6 +80,11 @@ namespace BulkyBook.Areas.Admin.Controllers
                 _unitOfWork.Save();
                 
             }
+
+            orderHeader.OrderStatus = SD.StatusDelivered;
+            orderHeader.PaymentStatus = SD.PaymentStatusApproved;
+            _unitOfWork.Save();
+
             return RedirectToAction("Details", "Order", new { id = orderHeader.Id });
         }
 
@@ -101,6 +106,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
             orderHeader.OrderStatus = SD.StatusShipped;
+           
             orderHeader.ShippingDate = DateTime.Now;
             
             _unitOfWork.Save();

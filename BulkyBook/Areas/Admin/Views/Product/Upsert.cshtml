@@ -39,7 +39,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.Author"></label>
+                    <label asp-for="Product.Author">Company</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Product.Author" class="form-control" />
@@ -52,6 +52,7 @@
                 </div>
                 <div class="col-8">
                     <textarea asp-for="Product.Description" class="form-control"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -74,19 +75,19 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.Price50"></label>
+                    <label asp-for="Product.Price50"hidden></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Product.Price50" class="form-control" />
+                    <input asp-for="Product.Price50" class="form-control"hidden />
                     <span asp-validation-for="Product.Price50" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.Price100"></label>
+                    <label asp-for="Product.Price100" hidden></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Product.Price100" class="form-control" />
+                    <input asp-for="Product.Price100" class="form-control" hidden />
                     <span asp-validation-for="Product.Price100" class="text-danger"></span>
                 </div>
             </div>

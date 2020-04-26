@@ -85,6 +85,7 @@
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-info">Order Summary:</span>
                                 </h4>
+                                <h6 span class="text-danger">If the total amount is less than 500 then delivery charges of 50 will be added.</h6>
                                 <ul class="list-group mb-3">
                                     @foreach (var details in Model.ListCart)
                                     {
@@ -96,19 +97,20 @@
                                             <span class="text-muted">$@(details.Price * details.Count) </span>
                                         </li>
                                     }
+
                                     <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <small class="text-info">Total (USD)</small>
+                                        <small class="text-info">Total (Rs.)</small>
                                         <strong class="text-info">$@(Model.OrderHeader.OrderTotal)</strong>
                                     </li>
                                 </ul>
                             </div>
+                            </div>
                         </div>
-                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-8 pt-2">
-                            <p style="color:maroon; font-size:14px;">Estimate Arrival Date: @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()</p>
+                            <p style="color:maroon; font-size:14px;">Estimate Arrival Date: @DateTime.Now.AddDays(1).ToShortDateString()</p>
                         </div>
                         <div class="col-12 col-md-4">
 
@@ -118,7 +120,7 @@
                             @if (Model.OrderHeader.ApplicationUser.Company == null ||
                            !Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
                             {
-                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                         data-key="@Stripe.Value.PublishableKey"
                                         data-amount="@OrderTotalForStripe"
                                         data-name="Bulky Book"
@@ -127,7 +129,7 @@
                                         data-locale="auto"
                                         data-allow-remember-me="false"
                                         data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
-                                </script>
+                                </script>*@
                                 <script>
                                     document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
                                 </script>

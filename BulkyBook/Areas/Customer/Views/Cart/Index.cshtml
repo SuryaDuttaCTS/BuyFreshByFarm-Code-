@@ -14,7 +14,7 @@
                         Shopping Cart
                     </div>
                     <div class="col-6 text-right">
-                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm text-white">Continue Shopping</a>
                     </div>
                 </div>
                 
@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
                                 <div class="col-4 text-md-right" style="padding-top:5px;">
-                                    <h6><strong>$@item.Price<span class="text-muted">x</span> @item.Count </strong></h6>
+                                    <h6><strong>Rs.@item.Price<span class="text-muted">x</span> @item.Count </strong></h6>
                                 </div>
                                 <div class="col-6 col-sm-4 col-lg-6">
                                     <div class="float-right mx-1">
@@ -59,8 +59,8 @@
                         <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between bg-light">
-                                    <span class="text-info"> Total (USD)</span>
-                                    <strong class="text-info">$ <span id="txtOrderTotal">@Model.OrderHeader.OrderTotal</span></strong>
+                                    <span class="text-info"> Total (Rs.)</span>
+                                    <strong class="text-info">Rs. <span id="txtOrderTotal">@Model.OrderHeader.OrderTotal</span></strong>
                                 </li>
                             </ul>
                         </div>
