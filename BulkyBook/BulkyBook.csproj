@@ -33,4 +33,20 @@
     <Folder Include="wwwroot\images\products\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Reference Include="FleeBazar.DataAccess">
+      <HintPath>..\..\..\FleeBazar\bin\Debug\netcoreapp3.1\FleeBazar.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="FleeBazar.Models">
+      <HintPath>..\..\..\FleeBazar\bin\Debug\netcoreapp3.1\FleeBazar.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="FleeBazar.Utility">
+      <HintPath>..\..\..\FleeBazar.Utility\bin\Debug\netcoreapp3.1\FleeBazar.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\..\..\..\Apparel-Shopping-Front-End-master\bin\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
