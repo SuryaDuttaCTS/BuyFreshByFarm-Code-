@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Carrier</div>
+                                <div class="col-3">Executive</div>
                                 <div class="col-9">
                                     @if (User.IsInRole(SD.Role_Employee) || User.IsInRole(SD.Role_Admin))
                                     {
@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Tracking</div>
+                                <div class="col-3">Executive Contact</div>
                                 <div class="col-9">
                                     @if (User.IsInRole(SD.Role_Employee) || User.IsInRole(SD.Role_Admin))
                                     {
@@ -221,7 +221,7 @@
                                                 <small class="text-muted">Quantity : @details.Count</small>
                                             </div>
                                             <div class="col-4">
-                                                <p class="text-success">@(String.Format("{0:C}", details.Count * details.Price))</p>
+                                                <p class="text-success">Rs. @(String.Format("{0:N2}", details.Count * details.Price))</p>
                                             </div>
                                         </div>
                                     </li>
@@ -232,7 +232,7 @@
                                             <h5 class="text-white">TOTAL </h5>
                                         </div>
                                         <div class="col-6 text-right">
-                                            <h5 class="text-white">@(String.Format("{0:C}", Model.OrderHeader.OrderTotal))</h5>
+                                            <h5 class="text-white">Rs. @(String.Format("{0:N2}", Model.OrderHeader.OrderTotal))</h5>
                                         </div>
                                     </div>
                                 </li>
@@ -251,6 +251,7 @@
                                     <input type="submit" value="Ship Order" onclick="return validateInput()"
                                            class="btn btn-primary form-control"
                                            formaction="/Admin/Order/ShipOrder" formmethod="post" />
+
                                 }
                             }
                             else

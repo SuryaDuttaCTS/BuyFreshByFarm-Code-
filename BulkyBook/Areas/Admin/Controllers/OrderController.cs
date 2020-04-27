@@ -196,8 +196,8 @@ namespace BulkyBook.Areas.Admin.Controllers
                                                             o.OrderStatus==SD.StatusInProcess||
                                                             o.OrderStatus==SD.StatusPending);
                     break;
-                case "completed":
-                    orderHeaderList = orderHeaderList.Where(o => o.OrderStatus == SD.StatusShipped);
+                case "delivered":
+                    orderHeaderList = orderHeaderList.Where(o => o.OrderStatus == SD.StatusDelivered);
                     break;
                 case "rejected":
                     orderHeaderList = orderHeaderList.Where(o => o.OrderStatus == SD.StatusCancelled ||

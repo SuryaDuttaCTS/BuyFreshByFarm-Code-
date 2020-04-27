@@ -284,6 +284,7 @@ namespace BulkyBook.Areas.Customer.Controllers
 
             _unitOfWork.Save();
 
+
             return RedirectToAction("OrderConfirmation", "Cart", new { id = ShoppingCartVM.OrderHeader.Id });
 
         }

@@ -10,8 +10,8 @@ $(document).ready(function () {
             loadDataTable("GetOrderList?status=pending");
         }
         else {
-            if (url.includes("completed")) {
-                loadDataTable("GetOrderList?status=completed");
+            if (url.includes("delivered")) {
+                loadDataTable("GetOrderList?status=delivered");
             }
             else {
                 if (url.includes("rejected")) {
