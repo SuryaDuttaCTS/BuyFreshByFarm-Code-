@@ -97,7 +97,7 @@
                                             <span class="text-muted">Rs.@(details.Price * details.Count) </span>
                                         </li>
                                     }
-                                    @if (Model.OrderHeader.OrderTotal < 500)
+                                    @if (Model.OrderHeader.OrderTotal < 550)
                                     {
                                         <li class="list-group-item d-flex justify-content-between">
                                             <div>
@@ -140,26 +140,28 @@
                                 var OrderTotalForStripe = Model.OrderHeader.OrderTotal * 100;
                             }
                             @if (Model.OrderHeader.ApplicationUser.Company == null ||
-                           !Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
+                         !Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
                             {
-                            @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="@Stripe.Value.PublishableKey"
-                data-amount="@OrderTotalForStripe"
-                data-name="Bulky Book"
-                data-label="Place Order"
-                data-description="Get Books, For Less"
-                data-locale="auto"
-                data-allow-remember-me="false"
-                data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
-        </script>*@
-                            <script>
-                                document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
-                            </script>
-                            <button id="Submit" type="submit" value="Place Order" class="btn btn-success form-control" >Place Order</button>
-                             }
+                                @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="@Stripe.Value.PublishableKey"
+                    data-amount="@OrderTotalForStripe"
+                    data-name="Bulky Book"
+                    data-label="Place Order"
+                    data-description="Get Books, For Less"
+                    data-locale="auto"
+                    data-allow-remember-me="false"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+            </script>*@
+                                <script>
+                                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                </script>
+
+                                <button id="Submit" type="submit" value="Place Order" class="btn btn-success form-control" onclick="return validateInput()">Place Order</button>
+                            }
                             else
                             {
-                            <button id="submit" type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>                          
+    
+                                <button id="submit" type="submit" value="Place Order" class="btn btn-primary form-control" onclick="return validateInput()">Place Order</button>
 
                             }
                         </div>
@@ -171,4 +173,19 @@
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function validateInput() {
+           // swal("Error", "Please select an image", "error");
+            swal({
+                title: "Info",
+                text: "Your order will be placed but currently online payment option is not available we are working on it. Please pay by cash or gay/paytm at 9112712414",
+                icon: "info",
+                buttons: false,
+                dangerMode: false,
+                timer:3000
+            })
+            return true;
+        }
+    </script>
 }
+          
