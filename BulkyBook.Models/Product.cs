@@ -40,5 +40,8 @@ namespace BulkyBook.Models
 
         [ForeignKey("CoverTypeId")]
         public CoverType CoverType { get; set; }
+
+    
+        public string Deleted{ get; set; }
     }
 }

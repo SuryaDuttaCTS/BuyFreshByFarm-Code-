@@ -1,0 +1,92 @@
+﻿@model IEnumerable<BulkyBook.Models.Product>
+@*<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        category*@
+    @*</button>*@
+    @*<ul class="dropdown-menu">*@
+        @*@foreach (var item in Model.Select(s => s.Category).Distinct().ToArray())
+        {*@
+           
+            @*<li><a asp-action="Search" class="dropdown-item-text" asp-route-Id="@item.Id">@item.Name</a></li>*@
+            
+    <h3>Category:<span class="label label-default"><span class="label label-default">@Model.Select(s => s.Category.Name).Distinct().FirstOrDefault()</span></h3> 
+        @*}*@
+    @*</ul>*@
+@*</div>*@
+
+
+<div class="row pb-3 backgroundWhite">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                    <div class="card" style="border:0px;">
+                        <div class="container-new">
+                            @if (Math.Round(((product.ListPrice - product.Price) / product.ListPrice) * 100) > 0)
+                            {
+                                <div class="top-left pricetag" style="background-color:red; color:black">@Math.Round((((product.ListPrice - product.Price) / product.ListPrice) * 100))% Off</div>
+                            }
+                            <img src="@product.ImageUrl" class="card-img-top rounded" />
+                        </div>
+                        <div class="pl-1">
+                            <p class="card-title h5"><b style="color:#2c3e50">@product.Title</b></p>
+                            <p class="card-title text-primary">by <b>@product.Author</b></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p>Unit: <b class="">@product.CoverType.Name.ToString()</b></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p>List Price: <strike><b class="">Rs.@product.ListPrice.ToString("0.00")</b></strike></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p style="color:maroon">Offer Price: <b class="">Rs.@product.Price.ToString("0.00")</b></p>
+                        </div>
+                    </div>
+                    @if (@product.ISBN == "0")
+                    {
+                        <div style="width: 40%; float:left">
+                            <a asp-action="Details2" class="btn btn-primary form-control" onmousedown="pop()" asp-route-id="@product.Id"> <i class="fas fa-plus"></i>  <i class="fas fa-shopping-cart"></i></a>
+
+
+                        </div>
+                        <div style="width: 50%; float:right">
+                            <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@product.Id">details</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <a class="btn btn-dark form-control disabled" asp-route-id="@product.Id">Out Of Stock</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "700",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    function pop() {
+
+        toastr.success('Product is added to your cart');
+    }
+</script>

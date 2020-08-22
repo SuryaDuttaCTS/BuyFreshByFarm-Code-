@@ -14,7 +14,7 @@
                         Order Summary
                     </div>
                     <div class="col-6 text-right">
-                        <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="btn btn-outline-info btn-sm text-white">Back to Cart</a>
+                        <a asp-area="Customer" asp-controller="Cart" asp-action="Cart" class="btn btn-outline-info btn-sm text-white">Back to Cart</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -76,7 +76,7 @@
                                         <label>Postal Code</label>
                                     </div>
                                     <div class="col-9">
-                                        <input asp-for="OrderHeader.PostalCode" type="text" class="form-control" />
+                                        <input asp-for="OrderHeader.PostalCode" type="text" class="form-control" onchange="PostalCodeChange_onChange" />
                                         <span asp-validation-for="OrderHeader.PostalCode" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                                             <span class="text-muted">Rs.@(details.Price * details.Count) </span>
                                         </li>
                                     }
-                                    @if (Model.OrderHeader.OrderTotal < 550)
+                                    @if (Model.OrderHeader.OrderTotal < 500)
                                     {
                                         <li class="list-group-item d-flex justify-content-between">
                                             <div>
@@ -140,7 +140,7 @@
                                 var OrderTotalForStripe = Model.OrderHeader.OrderTotal * 100;
                             }
                             @if (Model.OrderHeader.ApplicationUser.Company == null ||
-                         !Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
+                       !Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
                             {
                                 @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="@Stripe.Value.PublishableKey"
@@ -156,14 +156,17 @@
                                     document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
                                 </script>
 
-                                <button id="Submit" type="submit" value="Place Order" class="btn btn-success form-control" onclick="return validateInput()">Place Order</button>
+
+                                    <button id="submit" type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
+
                             }
                             else
                             {
-    
-                                <button id="submit" type="submit" value="Place Order" class="btn btn-primary form-control" onclick="return validateInput()">Place Order</button>
 
+
+                                    <button id="submit" type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
                             }
+
                         </div>
                     </div>
                 </div>
@@ -174,18 +177,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        function validateInput() {
-           // swal("Error", "Please select an image", "error");
-            swal({
-                title: "Info",
-                text: "Your order will be placed but currently online payment option is not available we are working on it. Please pay by cash or gay/paytm at 9112712414",
-                icon: "info",
-                buttons: false,
-                dangerMode: false,
-                timer:3000
-            })
-            return true;
-        }
+
     </script>
 }
           

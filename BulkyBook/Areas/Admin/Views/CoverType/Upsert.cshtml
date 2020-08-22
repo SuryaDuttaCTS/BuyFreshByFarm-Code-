@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var title = "Create Cover Type";
+    var title = "Create Unit Type";
 }
 
 
@@ -12,7 +12,7 @@
         @if (Model.Id != 0)
         {
             //edit
-            title = "Edit Cover Type";
+            title = "Edit Unit Type";
         }
         <div class="col-12 border-bottom">
             <h2 class="text-primary">@title</h2>
@@ -20,7 +20,7 @@
         <div class="col-8 pt-4">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Name"></label>
+                    <label asp-for="Name">Unit Type</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Name" class="form-control" />

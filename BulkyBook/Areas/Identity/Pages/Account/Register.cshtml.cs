@@ -83,6 +83,10 @@ namespace BulkyBook.Areas.Identity.Pages.Account
             public string State { get; set; }
             public string PostalCode { get; set; }
             public string PhoneNumber { get; set; }
+
+            [Required]
+            public string Validation_question{ get; set; }
+
             public int? CompanyId { get; set; }
             public string Role { get; set; }
 
@@ -129,7 +133,8 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     PostalCode = Input.PostalCode,
                     Name = Input.Name,
                     PhoneNumber = Input.PhoneNumber,
-                    Role = Input.Role
+                    Role = Input.Role,
+                    Validation_question=Input.Validation_question
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

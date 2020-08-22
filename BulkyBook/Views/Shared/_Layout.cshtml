@@ -7,18 +7,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BuyFresh ByFarm</title>
+    <title>@ViewData["Title"] - Foodery </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="SHORTCUT ICON" href="~/images/Foodry_.jpg" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">BuyFresh ByFarm</a>
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"><h2>Foodery</h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -67,32 +68,39 @@
                                 }
                             </a>
                         </li>
-                        @if ( User.IsInRole(SD.Role_Admin))
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Help">
+                                <span>Contact Us</span>
+                            </a>
+
+                         </li>
+                        @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item" hidden>
                                 <a class="nav-link" asp-area="Admin" asp-controller="BrainTree" asp-action="Index">BrainTree</a>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart) != null)
-                            {
-                                <li style="color:white;">
-                                    <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link">
-                                        @{
-                                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart);
-                                        }
-                                        <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li style="color:white;">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-shopping-cart"></i> &nbsp; (0)
-                                    </a>
-                                </li>
-                            }
-                        </ul>
+                        {
+                            <li style="color:white;">
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Cart" class="nav-link">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart);
+                                    }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li style="color:white;">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (0)
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -106,7 +114,7 @@
 
     <footer class="border-top footer text-white-50 bg-primary">
         <div class="container ">
-            &copy; 2020 - BuyFresh ByFarm
+            &copy; 2020 - Foodery
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

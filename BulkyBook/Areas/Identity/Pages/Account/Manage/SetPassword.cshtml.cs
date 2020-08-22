@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BulkyBook.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,11 +14,12 @@ namespace BulkyBook.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-
+        private readonly ApplicationDbContext _db;
         public SetPasswordModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager, ApplicationDbContext db)
         {
+            _db = db;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -27,6 +29,8 @@ namespace BulkyBook.Areas.Identity.Pages.Account.Manage
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        public static string input_id {get; set;}
 
         public class InputModel
         {
@@ -42,16 +46,22 @@ namespace BulkyBook.Areas.Identity.Pages.Account.Manage
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+
+            input_id = id;
+            if (user == null && objFromDb==null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var hasPassword = await _userManager.HasPasswordAsync(user);
-
+            var hasPassword = false;
+            if (user != null)
+            {
+                hasPassword = await _userManager.HasPasswordAsync(user);
+            }
+           
             if (hasPassword)
             {
                 return RedirectToPage("./ChangePassword");
@@ -60,33 +70,91 @@ namespace BulkyBook.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        //public async Task<IActionResult> OnGetAsync(string? id)
+        //{
+        //    var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+
+
+        //    if (objFromDb == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+
+        //    var hasspassword = await _userManager.HasPasswordAsync(objFromDb);
+
+        //    if (hasspassword)
+        //    {
+        //        return RedirectToPage("./ChangePassword");
+        //    }
+
+        //    return Page();
+        //}
+
+
+
+
+
+
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || input_id == null)
             {
                 return Page();
             }
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            if (user == null && input_id == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == input_id);
 
-            var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
-            if (!addPasswordResult.Succeeded)
-            {
-                foreach (var error in addPasswordResult.Errors)
+            input_id = null;
+
+            if (user != null)
+            { var addPasswordResult = await _userManager.AddPasswordAsync(user, Input.NewPassword);
+                if (!addPasswordResult.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (var error in addPasswordResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return Page();
                 }
-                return Page();
+
+                await _signInManager.RefreshSignInAsync(user);
+                StatusMessage = "Your password has been set.";
+
+                return RedirectToPage();
+            }
+            else
+            { 
+
+                await _userManager.RemovePasswordAsync(objFromDb);
+
+                var addPasswordResult = await _userManager.AddPasswordAsync(objFromDb, Input.NewPassword);
+
+
+
+
+                if (!addPasswordResult.Succeeded)
+                {
+                    foreach (var error in addPasswordResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return Page();
+                }
+
+                await _signInManager.RefreshSignInAsync(objFromDb);
+                StatusMessage = "Your password has been set.";
+
+                return RedirectToPage();
+
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your password has been set.";
 
-            return RedirectToPage();
-        }
+
+            }
     }
 }

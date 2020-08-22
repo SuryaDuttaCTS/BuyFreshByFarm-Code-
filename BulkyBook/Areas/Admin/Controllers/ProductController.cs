@@ -46,10 +46,14 @@ namespace BulkyBook.Areas.Admin.Controllers
                     Text = i.Name,
                     Value = i.Id.ToString()
                 })
+
+
+
             };
             if (id == null)
             {
                 //this is for create
+                
                 return View(productVM);
             }
             //this is for edit

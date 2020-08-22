@@ -1,0 +1,152 @@
+﻿@model BulkyBook.Models.ViewModels.ShoppingCartVM
+@using Microsoft.Extensions.Options
+    <form method="post">
+        <br />
+        @if (Model.ListCart.Count() > 0)
+        {
+            <Script>var element = -1;</Script>
+            <Script>var element2 = -1;</Script>
+
+            <div class="backgroundWhiteBorder">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header bg-dark text-light ml-0 row container">
+                            <div class="col-6">
+                                <i class="fa fa-shopping-cart"></i> &nbsp;
+                                Shopping Cart
+                            </div>
+                            <div class="col-6 text-right">
+                                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm text-white">Continue Shopping</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+
+                            @foreach (var item in Model.ListCart)
+                            {
+
+                            <div class="row">
+                                <div class="d-none d-lg-block col-lg-2 text-center py-2">
+                                    <img src="@item.Product.ImageUrl" class="rounded" width="50%" />
+                                </div>
+                                <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                    <h5><strong>@item.Product.Title</strong></h5>
+                                    <p><small>@item.Product.Description</small></p>
+                                </div>
+                                @if (@item.Product.ISBN != "0")
+                                {
+                                    <h5 style="color:red"><strong>Out of stock</strong></h5>
+                                }
+                                <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                    <div class="col-4 text-md-right" style="padding-top:5px;">
+                                        <h6><strong>Rs.@item.Price<span class="text-muted">x</span> @item.Count </strong></h6>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-lg-6">
+                                        <div class="float-right mx-1">
+                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="float-right mx-1">
+                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-danger">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                        <a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                                    <hr />
+                                }
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                                <span class="text-info"> Total (Rs.)</span>
+                                                <strong class="text-info">Rs. <span id="txtOrderTotal">@Model.OrderHeader.OrderTotal</span></strong>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        <div class="card-footer">
+                            <div class="card-footer row">
+                                @if (!Model.OrderHeader.ApplicationUser.EmailConfirmed
+                    && Model.OrderHeader.ApplicationUser.CompanyId != null
+                    && Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany)
+                                {
+                                    <div class="col-8 text-danger">
+                                        Email Must be confirmed for authorized customers!
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                            Click here to resend confirmation Email!
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    var element = true;
+                                    var element2 = true;
+                                    <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+
+                                        @foreach (var item in Model.ListCart)
+                                        {
+                                            @if (@item.Count > 20)
+                                            {
+
+                                                <div class="col-12 text-center" style="color:red"><b>Your @item.Product.Title counts exceed the maximum limit that an individual can order (20).</b></div>
+                                                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control" hidden>Summary</a>
+                                                element = false;
+                                                break;
+                                            }
+                                            else @if (@item.Product.ISBN != "0")
+                                       {
+                                        <div class="col-12 text-center" style="color:red"><b> Certain products in the list are out of stock now. Please remove those items and order.</b></div>
+                                        element2 = false;
+                                        break;
+                                    }
+                                        }
+
+                                        @if (element && element2)
+                                        {
+
+
+                                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Summary</a>
+
+                                        }
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card-header bg-dark text-light ml-0 row container">
+                <div class="col-6">
+                    <i class="fa fa-shopping-cart"></i> &nbsp;
+                    Shopping Cart
+                </div>
+                <div class="col-6 text-right">
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm text-white">Continue Shopping</a>
+                </div>
+            </div>
+            <div>There are no items in the shopping cart.</div>
+        }
+    </form>
+
+@section Scripts{
+
+
+}

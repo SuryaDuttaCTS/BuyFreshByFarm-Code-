@@ -195,3 +195,60 @@ body {
     width: 210px !important;
     margin: 0 auto;
 }
+
+.container-new {
+    position: relative;
+    text-align: center;
+    color: red;
+}
+
+
+.top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+}
+
+.pricetag {
+    position: absolute;
+    margin: 0 5px 0 10px;
+    displaY: inline-block;
+    height: 28px;
+    border-radius: 0 5px 5px 0;
+    padding: 0 25px 0 15px;
+    background: #E8EDF0;
+    border: 0 solid #C7D2D4;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    color: #999;
+    line-height: 23px;
+    text-align: center;
+}
+
+    .pricetag:after {
+        position: absolute;
+        right: 0;
+        margin: 1px 7px;
+        font-weight: bold;
+        font-size: 19px;
+        
+        content: "\00D7";
+    }
+
+    .pricetag:before {
+        position: absolute;
+        content: "\25CF";
+        color: white;
+        text-shadow: 0 0 1px #333;
+        font-size: 11px;
+        line-height: 0px;
+        text-indent: 12px;
+        left: -15px;
+        width: 0px;
+        height: 0px;
+        border-right: 14px solid red;
+        border-top: 13px solid transparent;
+        border-bottom: 13px solid transparent;
+    }
+
+

@@ -23,5 +23,9 @@ namespace BulkyBook.Models
 
         [NotMapped]
         public string Role { get; set; }
+        [Required]
+       public string Validation_question { get; set; }
+
+       
     }
 }

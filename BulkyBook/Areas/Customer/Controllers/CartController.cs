@@ -18,6 +18,7 @@ using Microsoft.Extensions.Options;
 using Stripe;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BulkyBook.Areas.Customer.Controllers
 {
@@ -42,7 +43,8 @@ namespace BulkyBook.Areas.Customer.Controllers
             _twilioOptions = twilionOptions.Value;
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public IActionResult Cart()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -74,8 +76,8 @@ namespace BulkyBook.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        [ActionName("Index")]
-        public async Task<IActionResult> IndexPOST()
+        [ActionName("Cart")]
+        public async Task<IActionResult> CartPOST()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -98,7 +100,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
-            return RedirectToAction("Index");
+            return RedirectToAction("Cart");
 
         }
         
@@ -111,7 +113,7 @@ namespace BulkyBook.Areas.Customer.Controllers
             cart.Price = SD.GetPriceBasedOnQuantity(cart.Count, cart.Product.Price,
                                     cart.Product.Price50, cart.Product.Price100);
             _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Cart));
         }
 
         public IActionResult Minus(int cartId)
@@ -134,7 +136,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                 _unitOfWork.Save();
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Cart));
         }
 
         public IActionResult Remove(int cartId)
@@ -148,7 +150,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                 HttpContext.Session.SetInt32(SD.ssShoppingCart, cnt - 1);
             
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Cart));
         }
 
         public IActionResult Summary()
@@ -244,7 +246,25 @@ namespace BulkyBook.Areas.Customer.Controllers
                 ShoppingCartVM.OrderHeader.OrderTotal = ShoppingCartVM.OrderHeader.OrderTotal;
             }
             _unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ListCart);
-            _unitOfWork.Save();
+
+            if (ShoppingCartVM.OrderHeader.PostalCode == "735101" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735305" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735224" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735302" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735121" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735102" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735210" ||
+                ShoppingCartVM.OrderHeader.PostalCode == "735301"                
+                )
+            {
+                _unitOfWork.Save();
+            }
+            else
+            {
+
+               // HttpContext.Session.SetInt32(SD.ssShoppingCart, 0);
+                return RedirectToAction("OrderCancellation", "Cart",10001);
+            }
             HttpContext.Session.SetInt32(SD.ssShoppingCart, 0);
 
             if (stripeToken == null)
@@ -293,6 +313,42 @@ namespace BulkyBook.Areas.Customer.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
+            //Surya Changes 07082020
+            //OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
+            //TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
+            //try
+            //{
+            //    var message = MessageResource.Create(
+            //        body: "Order Placed on Bulky Book. Your Order ID:" + id,
+            //        from: new Twilio.Types.PhoneNumber(_twilioOptions.PhoneNumber),
+            //        to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber)
+            //        );
+            //}
+            //catch(Exception ex)
+            //{
+
+            //}
+        //    const string accountSid = "AC23c488993add19ec621cefcc96018312";
+        //    const string authToken = "38ba9842877f2a5441c6c78c16583838";
+        //    TwilioClient.Init(accountSid, authToken);
+
+        //    var message = MessageResource.Create(
+        //    body: "Hello there fuck you sdfsdfsdjrtfdgdhfgjhtgmfghdfysdvschdffgjfgjfgjduryj !",
+        //    from: new Twilio.Types.PhoneNumber("whatsapp:+14155238886"),
+        //    to: new Twilio.Types.PhoneNumber("whatsapp:+919434961731")
+        //);
+
+        //    Console.WriteLine(message.Sid);
+
+            //Surya Changes 07082020
+            //7501536858
+
+            return View(id);
+        }
+
+
+        public IActionResult OrderCancellation(int id)
+        {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);
             TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
             try
@@ -303,7 +359,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                     to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber)
                     );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

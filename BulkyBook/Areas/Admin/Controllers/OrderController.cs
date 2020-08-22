@@ -45,7 +45,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         [ActionName("Details")]
         public IActionResult Details(string stripeToken)
-        {
+            {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id,
                                                 includeProperties: "ApplicationUser");
             if(stripeToken!=null)
@@ -113,7 +113,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+      //  [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         public IActionResult CancelOrder(int id)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id);

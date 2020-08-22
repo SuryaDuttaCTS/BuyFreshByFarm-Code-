@@ -1,31 +1,119 @@
 ﻿@model IEnumerable<BulkyBook.Models.Product>
 
-    <div class="row pb-3 backgroundWhite">
-        @foreach (var product in Model)
-        {
-         <div class="col-lg-3 col-md-6">
-                <div class="row p-2">
-                    <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
-                        <div class="card" style="border:0px;">
-                            <img src="@product.ImageUrl" class="card-img-top rounded" />
-                            <div class="pl-1">
-                                <p class="card-title h5"><b style="color:#2c3e50">@product.Title</b></p>
-                                <p class="card-title text-primary">by <b>@product.Author</b></p>
-                            </div>
-                            <div style="padding-left:5px;">
-                                <p>List Price: <strike><b class="">Rs.@product.ListPrice.ToString("0.00")</b></strike></p>
-                            </div>
-                            <div style="padding-left:5px;">
-                                <p style="color:maroon">As low as: <b class="">Rs.@product.Price.ToString("0.00")</b></p>
-                            </div>
+<div class="row pb-2 backgroundWhite">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Category
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var item in Model.Select(s => s.Category).Distinct().ToArray())
+            {
+                // Model.Select(s => s.Category.Name).Distinct().ToArray()
+                <li><a asp-action="Search" class="dropdown-item-text" asp-route-Id="@item.Id">@item.Name</a></li>
+            }
+        </ul>
+    </div> &nbsp;&nbsp;&nbsp;
+    <H4 style="color:red;"><b>Due to unavoidable circumstances of Covid-19, there may be a delay in the delivery of products.</b></H4>
+</div>
+<div class="row pb-1 backgroundWhite">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-1">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                    <div class="card" style="border:0px;">
+                        <div class="container-new">
+                            @if (Math.Round(((product.ListPrice - product.Price) / product.ListPrice) * 100) > 0)
+                            {
+                                <div class="top-left pricetag" style="background-color:red; color:black">@Math.Round((((product.ListPrice - product.Price) / product.ListPrice) * 100))% Off</div>
+                            }
+                            <img src="@product.ImageUrl" class="card-img-top rounded" style="height:275px; width:100%; padding-left:10px " />
                         </div>
-                        <div>
-                            <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@product.Id">Details</a>
+                        <div class="pl-1">
+                            <p class="card-title h-auto"><b style="color:#2c3e50">@product.Title</b></p>
+                            <p class="card-title text-primary">by <b>@product.Author</b></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p>Unit: <b class="">@product.CoverType.Name.ToString()</b></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p>List Price: <strike><b class="">Rs.@product.ListPrice.ToString("0.00")</b></strike></p>
+                        </div>
+                        <div style="padding-left:5px;">
+                            <p style="color:maroon">Offer Price: <b class="">Rs.@product.Price.ToString("0.00")</b></p>
                         </div>
                     </div>
+                    @if (@product.ISBN == "0")
+                    {
+                        <div style="width: 40%; float:left">
+                            <a asp-action="Details1" class="btn btn-primary form-control nav-link" onmousedown="pop()" asp-route-id="@product.Id"> <i class="fas fa-plus"></i>  <i class="fas fa-shopping-cart"></i></a>
+
+
+                        </div>
+                        <div style="width: 50%; float:right">
+                            <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@product.Id">details</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <a class="btn btn-dark form-control disabled" asp-route-id="@product.Id">Out Of Stock</a>
+                        </div>
+                    }
+
                 </div>
             </div>
-            }
-
         </div>
+    }
+    @*<div id="qlwapp" class="qlwapp-button qlwapp-bottom-right qlwapp-all qlwapp-rounded qlwapp-js-ready desktop">
+            <div class="qlwapp-container">
+                <a class="qlwapp-toggle" data-action="open" data-phone="919091801062" data-message="Hi , I want to order here !" href="https://web.whatsapp.com/send?phone=919091801062&text=Hi , I want to order here !" target="_blank">
+                    <i class="qlwapp-icon qlwapp-whatsapp-icon"></i>
+                    <i class="qlwapp-close" data-action="close">×</i>
+                    <span class="qlwapp-text">Order Here</span>
+                </a>
+            </div>
+        </div>*@
+
+    <script type="text/javascript">
+        (function () {
+            var options = {
+                whatsapp: "+919735131053", // WhatsApp number
+                call_to_action: "You can also order here!!", // Call to action
+                position: "right", // Position may be 'right' or 'left'
+            };
+            var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
+            var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+            s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+            var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+        })();
+    </script>
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "700",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        function pop() {
+
+            toastr.success('Product is added to your cart');
+        }
+    </script>
+
+
+</div>
+
+
 

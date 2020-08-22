@@ -30,7 +30,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.ISBN"></label>
+                    <label asp-for="Product.ISBN">Status</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Product.ISBN" class="form-control" />
@@ -91,54 +91,69 @@
                     <span asp-validation-for="Product.Price100" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group row">
+            @*<div class="form-group row">
                 <div class="col-4">
-                    Category
+                    Status
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(m => m.Product.CategoryId, Model.CategoryList, "-Select a Category",
-                   new { @class = "form-control" })
-                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                    @Html.DropDownList("Active", new List<SelectListItem>
+                           {
+                       new SelectListItem{ Text="Active", Value = "0" },
+                       new SelectListItem{ Text="In-Active", Value = "1" }
+                           }, new { @class = "form-control" })
+                    <input asp-for="Product.Deleted" class="form-control" hidden />
+                    <span asp-validation-for="Product.Deleted" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    Cover Type
-                </div>
-                <div class="col-8">
-                    @Html.DropDownListFor(m => m.Product.CoverTypeId, Model.CoverTypeList, "-Select a Cover Type",
-                   new { @class = "form-control" })
-                    <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-4">
-                   Image
-                </div>
-                <div class="col-8">
-                    <input type="file" name="files" id="uploadBox" multiple class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-8 offset-4">
-                    @if (Model.Product.Id != 0)
-                    {
-                        <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
-                    }
-                    else
-                    {
-                <div class="row">
-                    <div class="col">
-                        <button type="submit" onclick="return validateInput()" class="btn btn-primary form-control">Create</button>
+                </div>*@
+                <div class="form-group row">
+                    <div class="col-4">
+                        Category
                     </div>
-                    <div class="col">
-                        <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                    <div class="col-8">
+                        @Html.DropDownListFor(m => m.Product.CategoryId, Model.CategoryList, "-Select a Category",
+                       new { @class = "form-control" })
+                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                     </div>
                 </div>
-                    }
+                <div class="form-group row">
+                    <div class="col-4">
+                        Unit Type
+                    </div>
+                    <div class="col-8">
+                        @Html.DropDownListFor(m => m.Product.CoverTypeId, Model.CoverTypeList, "-Select a Unit Type",
+                       new { @class = "form-control" })
+                        <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        Image
+                    </div>
+                    <div class="col-8">
+                        <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 offset-4">
+                        @if (Model.Product.Id != 0)
+                        {
+                            <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" onclick="return validateInput()" class="btn btn-primary form-control">Create</button>
+                                </div>
+                                <div class="col">
+                                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
         @if (Model.Product.Id != 0)
         {
             <div class="col-3 offset-1 pt-4">

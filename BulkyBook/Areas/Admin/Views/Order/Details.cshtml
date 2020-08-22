@@ -14,7 +14,7 @@
                     <i class="fas fa-shopping-cart"></i> &nbsp; Order Summary
                 </div>
                 <div class="col-12 col-md-4 offset-md-2 text-right">
-                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-outline-info form-control btn-sm">Back to Orders</a>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-outline-light form-control btn-sm text-black-50">Back to Orders</a>
                 </div>
             </div>
             <div class="card-body">
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="row my-1">
-                                <div class="col-3">Zip Code</div>
+                                <div class="col-3">Pin Code</div>
                                 <div class="col-9">
                                     @if (User.IsInRole(SD.Role_Employee) || User.IsInRole(SD.Role_Admin))
                                     {
@@ -264,18 +264,18 @@
                             }
 
                             @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment &&
-                               Model.OrderHeader.OrderStatus == SD.StatusShipped)
+                             Model.OrderHeader.OrderStatus == SD.StatusShipped)
                             {
                                 @*<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                        data-key="@Stripe.Value.PublishableKey"
-                                        data-amount="@OrderTotalForStripe"
-                                        data-name="Bulky Book"
-                                        data-label="Place Order"
-                                        data-description="Get Books, For Less"
-                                        data-locale="auto"
-                                        data-allow-remember-me="false"
-                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
-                                </script>*@
+                    data-key="@Stripe.Value.PublishableKey"
+                    data-amount="@OrderTotalForStripe"
+                    data-name="Bulky Book"
+                    data-label="Place Order"
+                    data-description="Get Books, For Less"
+                    data-locale="auto"
+                    data-allow-remember-me="false"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+            </script>*@
                                 <script>
                                     document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
                                 </script>
@@ -284,14 +284,15 @@
 
 
                             @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded &&
-                           Model.OrderHeader.OrderStatus != SD.StatusCancelled &&
-                           (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)))
+                    Model.OrderHeader.OrderStatus != SD.StatusCancelled && Model.OrderHeader.OrderStatus!=SD.StatusDelivered
+                    && Model.OrderHeader.OrderStatus !=SD.StatusShipped)
                             {
                                 <div class="pt-2">
                                     <a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id"
                                        class="btn btn-danger form-control">Cancel Order</a>
                                 </div>
                             }
+                    
                         </div>
                     </div>
                 </div>

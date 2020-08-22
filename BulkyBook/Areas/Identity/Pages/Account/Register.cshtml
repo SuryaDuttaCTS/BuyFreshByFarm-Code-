@@ -66,7 +66,11 @@
                                 <input asp-for="Input.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control" />
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                             </div>
-
+                        </div>
+                        <div><b><span>Security Question ( Please provide your pet name? )</span></b></div>
+                        <div class="py-2">
+                            <input asp-for="Input.Validation_question" placeholder="Please provide your pet name?" class="form-control" />
+                            <span asp-validation-for="Input.Validation_question" class="text-danger"></span>
                         </div>
                         @if (User.IsInRole(SD.Role_Admin))
                         {

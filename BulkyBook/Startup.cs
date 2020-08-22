@@ -64,8 +64,8 @@ namespace BulkyBook
             });
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = "466194436506-9lp15bncq2em7tpv4csikoujmjbke901.apps.googleusercontent.com";
-                options.ClientSecret = "te3cDPulEYa_EX-L2uhjkjrM";
+                options.ClientId = "466194436506-50e2mdrmrl866a1noin2o08njl34bmdg.apps.googleusercontent.com";
+                options.ClientSecret = "ytXzXi7tpRd-I5VrGp5cqXeP";
 
             });
             services.AddSession(options =>
@@ -106,6 +106,7 @@ namespace BulkyBook
                     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            
         }
     }
 }
